@@ -1,0 +1,16 @@
+{
+  "name": "liquid-edge/le-starter",
+  "description": "Starter project for le-core-ext framework",
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "liquid-edge/le-core-ext": "^2.0"
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "scripts": {
+    "post-create-project-cmd": [
+      "@php setup.php"
+    ]
+  }
+}
