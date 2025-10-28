@@ -1,3 +1,5 @@
 <?php
 
-echo "✅ Project initialized using le-core-ext\n";
+//first create folder structure and nova composer.json file
+
+

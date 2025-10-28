@@ -9,5 +9,13 @@
     "post-create-project-cmd": [
       "@php setup.php"
     ]
+  },
+  "autoload": {
+    "psr-4": {
+      "Liquidedge\\ExternalStarter\\": "core/"
+    }
+  },
+  "require": {
+    "symfony/console": "^7.2"
   }
 }
