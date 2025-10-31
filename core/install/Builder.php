@@ -5,6 +5,7 @@ namespace Liquidedge\ExternalStarter\Install;
 use Liquidedge\ExternalStarter\Com\Debug;
 use Liquidedge\ExternalStarter\Com\Os;
 use Liquidedge\ExternalStarter\Core;
+use Nette\PhpGenerator\PhpFile;
 
 class Builder {
 	//---------------------------------------------------------------------------
@@ -12,12 +13,32 @@ class Builder {
 
 		//first create folders
 		$this->create_folders()
-		->create_composer_json();
+		->create_composer_json()
+		->create_root_files()
+		->run_nova_composer_command();
 
 	}
 
 	//---------------------------------------------------------------------------
-	private function create_install_files(): self {
+	private function run_nova_composer_command(): self {
+
+		echo "Before composer update\n";
+
+		$output = shell_exec('composer update 2>&1');
+
+		echo "Composer update finished\n";
+		echo $output;
+
+		echo "This runs only after composer is done\n";
+
+
+		return $this;
+	}
+	//---------------------------------------------------------------------------
+	private function create_root_files(): self {
+
+		(new \Liquidedge\ExternalStarter\Install\makers\MakeRootIndex())->run();
+		(new \Liquidedge\ExternalStarter\Install\makers\MakeRootInstall())->run();
 
 		return $this;
 	}
