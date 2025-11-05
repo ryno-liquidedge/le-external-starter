@@ -1,2 +1,7 @@
 .idea
 vendor
+root
+app
+admin
+core
+data

@@ -55,7 +55,6 @@ class Builder {
         // Change to the composer subdirectory
         chdir($composerPath);
 
-//		composer config --global --auth http-basic.repo.packagist.com liquid-edge-github 3d62422656208275fbd5b916186eed23eb3670a3f1044362abf659c631cc
 		$return_var = $this->run_cli_command("composer config --global --auth http-basic.repo.packagist.com {$packagist_auth_username} {$packagist_auth_api_token}  2>&1");
 		if ($return_var === 0) $this->output->writeln("Packagist authentication configured for {$packagist_auth_username}.");
 		else throw new ("Packagist authentication failed for {$packagist_auth_username}.");

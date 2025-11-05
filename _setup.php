@@ -1,6 +1,7 @@
 <?php
 
 use Liquidedge\ExternalStarter\com\Os;
+use Liquidedge\ExternalStarter\Config;
 use Liquidedge\ExternalStarter\Core;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -30,6 +31,8 @@ $prompt = function($id, $question, $default = null, $options = [])use(&$config, 
 	return $config[$id] = $helper->ask($input, $output, $question);
 };
 
+Config::load();
+
 //$prompt("per_firstname", "What is your firstname");
 //$prompt("per_lastname", "What is your surname");
 //$prompt("per_email", "What is your email");
@@ -46,14 +49,18 @@ $prompt = function($id, $question, $default = null, $options = [])use(&$config, 
 //$prompt("php_exe_path", "What is the path to your php.exe file (Including file name)");
 //$prompt("php_ini_path", "What is the path to your php.ini file (Including file name)");
 
-$prompt("packagist_auth_username", "Please enter your LE Packagist Auth Username");
-$prompt("packagist_auth_api_token", "Please enter your LE Packagist Auth API Token");
+if(!Config::get('packagist_auth_username')) $prompt("packagist_auth_username", "Please enter your LE Packagist Auth Username");
+if(!Config::get('packagist_auth_api_token')) $prompt("packagist_auth_api_token", "Please enter your LE Packagist Auth API Token");
 
 // Save config to YAML
 Os::mkdir(Core::DIR_INSTALLER_CONFIG_DIR);
 
-file_put_contents(Core::INSTALLER_CONFIG_FILE, Yaml::dump($config, 4, 2));
+if($config) file_put_contents(Core::INSTALLER_CONFIG_FILE, Yaml::dump($config, 4, 2));
 $output->writeln("<info>Configuration saved to config/project_settings.yaml</info>");
 
 $builder = new \Liquidedge\ExternalStarter\install\Builder();
 $builder->run();
+
+$url = \Liquidedge\ExternalStarter\com\Os::pathToUrl(realpath(Core::DIR_NOVA_ROOT."/install.php"));
+echo "\n🎉 Your project is ready! Open in your browser:\n";
+echo $url . "\n\n";
