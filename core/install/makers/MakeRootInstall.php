@@ -1,6 +1,6 @@
 <?php
 
-namespace Liquidedge\ExternalStarter\Install\makers;
+namespace Liquidedge\ExternalStarter\install\makers;
 
 use Liquidedge\ExternalStarter\Core;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace Liquidedge\ExternalStarter\Install;
+namespace Liquidedge\ExternalStarter\install;
 
-use Liquidedge\ExternalStarter\Com\Debug;
-use Liquidedge\ExternalStarter\Com\Os;
+use Liquidedge\ExternalStarter\com\Os;
 use Liquidedge\ExternalStarter\Core;
-use Nette\PhpGenerator\PhpFile;
+use Liquidedge\ExternalStarter\install\makers\MakeRootIndex;
+use Liquidedge\ExternalStarter\install\makers\MakeRootInstall;
 
 class Builder {
 	//---------------------------------------------------------------------------
@@ -14,31 +14,13 @@ class Builder {
 		//first create folders
 		$this->create_folders()
 		->create_composer_json()
-		->create_root_files()
-		->run_nova_composer_command();
-
-	}
-
-	//---------------------------------------------------------------------------
-	private function run_nova_composer_command(): self {
-
-		echo "Before composer update\n";
-
-		$output = shell_exec('composer update 2>&1');
-
-		echo "Composer update finished\n";
-		echo $output;
-
-		echo "This runs only after composer is done\n";
-
-
-		return $this;
+		->create_root_files();
 	}
 	//---------------------------------------------------------------------------
 	private function create_root_files(): self {
 
-		(new \Liquidedge\ExternalStarter\Install\makers\MakeRootIndex())->run();
-		(new \Liquidedge\ExternalStarter\Install\makers\MakeRootInstall())->run();
+		(new MakeRootIndex())->run();
+		(new MakeRootInstall())->run();
 
 		return $this;
 	}
@@ -64,7 +46,6 @@ class Builder {
 			"require" => [
 				"liquid-edge/le-core-classic" => "12.0.*",
 				"liquid-edge/le-core-ext" => "2.0.*",
-				"piwik/device-detector" => "3.11.*"
 			],
 			"repositories" => [
 				[

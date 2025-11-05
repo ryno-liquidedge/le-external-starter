@@ -1,6 +1,6 @@
 <?php
 
-namespace Liquidedge\ExternalStarter\Com;
+namespace Liquidedge\ExternalStarter\com;
 
 class Debug {
 	//---------------------------------------------------------------------------
