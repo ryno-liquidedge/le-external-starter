@@ -12,10 +12,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Liquidedge\\ExternalStarter\\": "core/"
+      "Liquidedge\\ExternalStarter\\": "le-external-starter/core/"
     }
   },
   "require": {
-    "symfony/console": "^7.2"
+    "symfony/console": "^7.2",
+    "symfony/yaml": "^6.4",
+    "symfony/config": "^6.4"
   }
 }

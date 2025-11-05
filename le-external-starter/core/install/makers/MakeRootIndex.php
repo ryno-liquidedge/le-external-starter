@@ -41,8 +41,8 @@ if (!\$success) \com\http::go_home();
 
 PHP;
 
-		if(!file_exists(Core::NOVA_ROOT."/index.php"))
-			file_put_contents(Core::NOVA_ROOT."/index.php", $code);
+		if(!file_exists(Core::DIR_NOVA_ROOT."/index.php"))
+			file_put_contents(Core::DIR_NOVA_ROOT."/index.php", $code);
 
 	}
 	//---------------------------------------------------------------------------
