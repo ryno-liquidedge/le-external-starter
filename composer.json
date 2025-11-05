@@ -7,7 +7,7 @@
   "prefer-stable": true,
   "scripts": {
     "post-create-project-cmd": [
-      "@php setup.php"
+      "@php post_create.php"
     ]
   },
   "autoload": {

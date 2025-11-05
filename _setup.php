@@ -10,7 +10,6 @@ use Symfony\Component\Yaml\Yaml;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-
 $input = new ArgvInput();
 $output = new ConsoleOutput();
 $helper = new QuestionHelper();
