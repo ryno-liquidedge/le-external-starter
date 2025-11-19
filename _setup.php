@@ -69,6 +69,8 @@ exec('php ' . __DIR__ . '/_install.php 2>&1', $output, $return_var);
 if ($return_var === 0) {
     echo "Install complete!";
 
+	$builder->copy_nebula_files();
+
 	$url = \Liquidedge\ExternalStarter\com\Os::pathToUrl(realpath(Core::DIR_NOVA_ROOT."/install.php"));
 	echo "\n🎉 Your project is ready! Open in your browser:\n";
 	echo $url . "\n\n";

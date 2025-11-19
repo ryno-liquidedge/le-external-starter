@@ -19,6 +19,7 @@
     "symfony/console": "^7.2",
     "symfony/yaml": "^6.4",
     "symfony/config": "^6.4",
+    "symfony/var-dumper": "^7.3",
     "ext-curl": "*"
   }
 }

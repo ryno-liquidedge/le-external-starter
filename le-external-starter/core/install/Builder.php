@@ -6,6 +6,7 @@ use Liquidedge\ExternalStarter\com\Os;
 use Liquidedge\ExternalStarter\Config;
 use Liquidedge\ExternalStarter\Core;
 use Liquidedge\ExternalStarter\install\makers\MakeRootInstall;
+use Liquidedge\ExternalStarter\install\modifiers\ModifyInstanceFiles;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -25,13 +26,25 @@ class Builder {
 	}
 
 	//---------------------------------------------------------------------------
-	public function run() {
+	public function run(): void {
 
 		//first create folders
 		$this->create_folders()
 		->create_composer_json()
 		->create_root_files()
 		->cli_composer_update();
+	}
+	//---------------------------------------------------------------------------
+	public function copy_nebula_files(): void {
+		$nebula_install_copy_dir = Core::DIR_NOVA_COMPOSER."/vendor/liquid-edge/le-core-ext/src/install_copy";
+		$nova_dir = Core::DIR_NOVA;
+
+		Os::copy_folder($nebula_install_copy_dir, $nova_dir);
+	}
+	//---------------------------------------------------------------------------
+	public function run_modifiers(): void {
+		(new ModifyInstanceFiles())
+			->run();
 	}
 	//---------------------------------------------------------------------------
 	public function cli_composer_update():self {
