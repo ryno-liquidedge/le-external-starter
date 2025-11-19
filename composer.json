@@ -18,6 +18,7 @@
   "require": {
     "symfony/console": "^7.2",
     "symfony/yaml": "^6.4",
-    "symfony/config": "^6.4"
+    "symfony/config": "^6.4",
+    "ext-curl": "*"
   }
 }

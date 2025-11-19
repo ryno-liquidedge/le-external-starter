@@ -61,6 +61,19 @@ $output->writeln("<info>Configuration saved to config/project_settings.yaml</inf
 $builder = new \Liquidedge\ExternalStarter\install\Builder();
 $builder->run();
 
-$url = \Liquidedge\ExternalStarter\com\Os::pathToUrl(realpath(Core::DIR_NOVA_ROOT."/install.php"));
-echo "\n🎉 Your project is ready! Open in your browser:\n";
-echo $url . "\n\n";
+$output = [];
+$return_var = 0;
+
+exec('php ' . __DIR__ . '/_install.php 2>&1', $output, $return_var);
+
+if ($return_var === 0) {
+    echo "Install complete!";
+
+	$url = \Liquidedge\ExternalStarter\com\Os::pathToUrl(realpath(Core::DIR_NOVA_ROOT."/install.php"));
+	echo "\n🎉 Your project is ready! Open in your browser:\n";
+	echo $url . "\n\n";
+
+} else {
+    echo "Install failed!";
+    print_r($output);
+}
