@@ -87,8 +87,6 @@ exec('php ' . __DIR__ . '/_install.php 2>&1', $output, $return_var);
 
 if ($return_var === 0) {
 
-//	$builder->copy_nebula_files();
-//	$builder->run_installers();
 
     echo "Install complete!";
 	echo "\n🎉 Your project is ready! Open in your browser:\n";

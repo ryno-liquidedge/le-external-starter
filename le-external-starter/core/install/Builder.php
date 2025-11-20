@@ -36,17 +36,21 @@ class Builder {
 		->cli_composer_update();
 	}
 	//---------------------------------------------------------------------------
-	public function replace_nova_installed_files(): void {
+	public function install_nova_addon(): void {
 
-		//first create folders
-		$this->create_composer_json(["force" => true]);
+		$this->create_composer_json(["force" => true])
+			->cli_composer_dump_autoload()
+			->copy_nebula_files()
+			->run_installers();
 	}
 	//---------------------------------------------------------------------------
-	public function copy_nebula_files(): void {
+	public function copy_nebula_files(): self {
 		$nebula_install_copy_dir = Core::DIR_NOVA_COMPOSER."/vendor/liquid-edge/le-core-ext/src/install_copy";
 		$nova_dir = Core::DIR_NOVA;
 
 		Os::copy_folder($nebula_install_copy_dir, $nova_dir);
+
+		return $this;
 	}
 	//---------------------------------------------------------------------------
 	public function run_installers(): void {
@@ -90,6 +94,19 @@ class Builder {
 		return $this;
 	}
 	//---------------------------------------------------------------------------
+	public function cli_composer_dump_autoload(): static {
+		$composerPath = Core::DIR_NOVA_COMPOSER;
+		// Save current working directory
+        $cwd = getcwd();
+
+        // Change to the composer subdirectory
+        chdir($composerPath);
+		$this->run_cli_command("composer dump-autoload 2>&1");
+		chdir($cwd);
+
+		return $this;
+	}
+	//---------------------------------------------------------------------------
 	private function run_cli_command($command): int {
 		// Run composer update
         $return_var = 0;
@@ -123,6 +140,12 @@ class Builder {
 		    "force" => false
 		], $options);
 
+		if($options["force"]){
+			if(file_exists(Core::DIR_NOVA."/app/inc/composer/composer.json")){
+				@unlink(Core::DIR_NOVA."/app/inc/composer/composer.json");
+			}
+		}
+
 		$config = [
 			"config" => [
 				"optimize-autoloader" => true,
@@ -151,7 +174,7 @@ class Builder {
 		];
 
 
-		if(!$options["force"] && !file_exists(Core::DIR_NOVA."/app/inc/composer/composer.json")){
+		if(!file_exists(Core::DIR_NOVA."/app/inc/composer/composer.json")){
 			file_put_contents(Core::DIR_NOVA."/app/inc/composer/composer.json", json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 		}
 

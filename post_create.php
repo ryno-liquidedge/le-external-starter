@@ -14,8 +14,5 @@ $output->writeln("<comment>Project Structure successfully created.</comment>");
 $output->writeln("<comment>Please run <info>\033[1;32mphp le-external-starter/setup\033[0m</info> from your command line interface</comment>");
 
 
-
-$url = \Liquidedge\ExternalStarter\com\Os::pathToUrl(realpath(\Liquidedge\ExternalStarter\Core::DIR_NOVA_ROOT."/install.php"));
-dump($url);
-//(new \Liquidedge\ExternalStarter\install\Builder())
-//	->run_installers();
+(new \Liquidedge\ExternalStarter\install\Builder())
+	->install_nova_addon();
