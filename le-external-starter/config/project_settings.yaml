@@ -1,2 +1,15 @@
+per_firstname: Ryno
+per_lastname: 'Van Zyl'
+per_email: ryno@liquidedge.co.za
+company_name: Test
+system_name: Test
+website: test_starter.local
+db_type: mysql
+db_hostname: localhost
+db_name: loc_starter_test
+db_username: root
+db_password: root
+php_exe_path: 'C:\PHP\PHP8.3.11\php.exe'
+php_ini_path: 'C:\PHP\PHP8.3.11\php.ini'
 packagist_auth_username: liquid-edge-github
 packagist_auth_api_token: 3d62422656208275fbd5b916186eed23eb3670a3f1044362abf659c631cc

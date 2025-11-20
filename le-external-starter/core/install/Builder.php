@@ -5,6 +5,7 @@ namespace Liquidedge\ExternalStarter\install;
 use Liquidedge\ExternalStarter\com\Os;
 use Liquidedge\ExternalStarter\Config;
 use Liquidedge\ExternalStarter\Core;
+use Liquidedge\ExternalStarter\install\installer\InstallInstance;
 use Liquidedge\ExternalStarter\install\makers\MakeRootInstall;
 use Liquidedge\ExternalStarter\install\modifiers\ModifyInstanceFiles;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -35,6 +36,12 @@ class Builder {
 		->cli_composer_update();
 	}
 	//---------------------------------------------------------------------------
+	public function replace_nova_installed_files(): void {
+
+		//first create folders
+		$this->create_composer_json(["force" => true]);
+	}
+	//---------------------------------------------------------------------------
 	public function copy_nebula_files(): void {
 		$nebula_install_copy_dir = Core::DIR_NOVA_COMPOSER."/vendor/liquid-edge/le-core-ext/src/install_copy";
 		$nova_dir = Core::DIR_NOVA;
@@ -42,9 +49,10 @@ class Builder {
 		Os::copy_folder($nebula_install_copy_dir, $nova_dir);
 	}
 	//---------------------------------------------------------------------------
-	public function run_modifiers(): void {
-		(new ModifyInstanceFiles())
-			->run();
+	public function run_installers(): void {
+
+		(new InstallInstance())->install();
+
 	}
 	//---------------------------------------------------------------------------
 	public function cli_composer_update():self {
@@ -109,7 +117,11 @@ class Builder {
 		return $this;
 	}
 	//---------------------------------------------------------------------------
-	private function create_composer_json(): self {
+	private function create_composer_json($options = []): self {
+
+		$options = array_merge([
+		    "force" => false
+		], $options);
 
 		$config = [
 			"config" => [
@@ -121,6 +133,7 @@ class Builder {
 			"require" => [
 				"liquid-edge/le-core-classic" => "12.0.*",
 				"liquid-edge/le-core-ext" => "1.1.*",
+				"liquid-edge/le-external-starter" => "1.0.*",
 			],
 			"repositories" => [
 				[
@@ -138,7 +151,7 @@ class Builder {
 		];
 
 
-		if(!file_exists(Core::DIR_NOVA."/app/inc/composer/composer.json")){
+		if(!$options["force"] && !file_exists(Core::DIR_NOVA."/app/inc/composer/composer.json")){
 			file_put_contents(Core::DIR_NOVA."/app/inc/composer/composer.json", json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 		}
 

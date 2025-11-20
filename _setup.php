@@ -26,6 +26,9 @@ $prompt = function($id, $question, $default = null, $options = [])use(&$config, 
 	    "hidden" => false
 	], $options);
 
+	$config_value = Config::get($id);
+	if($config_value) return $config[$id] = $config_value;
+
 	$question = new Question('<question>'.$question.':</question> ', $default);
 	$question->setHidden($options["hidden"]);
 	return $config[$id] = $helper->ask($input, $output, $question);
@@ -33,24 +36,40 @@ $prompt = function($id, $question, $default = null, $options = [])use(&$config, 
 
 Config::load();
 
-//$prompt("per_firstname", "What is your firstname");
-//$prompt("per_lastname", "What is your surname");
-//$prompt("per_email", "What is your email");
-//
-//$prompt("company_name", "What is the client's company name");
-//$prompt("system_name", "What is the client's system name");
-//$prompt("website", "What is the client's website");
-//
-//$prompt("db_type", "What DB type is the system using (mysql / sqlite)", "mysql");
-//$prompt("db_hostname", "What is the DB hostname", "localhost");
-//$prompt("db_username", "What is the DB username");
-//$prompt("db_password", "What is the DB password");
-//
-//$prompt("php_exe_path", "What is the path to your php.exe file (Including file name)");
-//$prompt("php_ini_path", "What is the path to your php.ini file (Including file name)");
+$has_local_db = $helper->ask($input, $output, (
+	new Question('<question>Have you created your local database? [y]</question> ', 'y')
+));
 
-if(!Config::get('packagist_auth_username')) $prompt("packagist_auth_username", "Please enter your LE Packagist Auth Username");
-if(!Config::get('packagist_auth_api_token')) $prompt("packagist_auth_api_token", "Please enter your LE Packagist Auth API Token");
+if(!in_array(strtolower(trim($has_local_db)), ["y", "yes"])){
+	$has_local_db = $helper->ask($input, $output, (
+		new Question('<question>Please create your local database and then press enter to continue...</question> ', 'y')
+	));
+}
+
+if(!in_array(strtolower(trim($has_local_db)), ["y", "yes"])){
+	$output->writeln("<comment>Wizard will exit until the local database is created.</comment>");
+	exit;
+}
+
+$prompt("per_firstname", "What is your firstname");
+$prompt("per_lastname", "What is your surname");
+$prompt("per_email", "What is your email");
+
+$prompt("company_name", "What is the client's company name");
+$prompt("system_name", "What is the client's system name");
+$prompt("website", "What is the client's website");
+
+$prompt("db_type", "What DB type is the system using (mysql / sqlite)", "mysql");
+$prompt("db_hostname", "What is the DB hostname", "localhost");
+$prompt("db_name", "What is the DB name");
+$prompt("db_username", "What is the DB username");
+$prompt("db_password", "What is the DB password");
+
+$prompt("php_exe_path", "What is the path to your php.exe file (Including file name)");
+$prompt("php_ini_path", "What is the path to your php.ini file (Including file name)");
+
+$prompt("packagist_auth_username", "Please enter your LE Packagist Auth Username");
+$prompt("packagist_auth_api_token", "Please enter your LE Packagist Auth API Token");
 
 // Save config to YAML
 Os::mkdir(Core::DIR_INSTALLER_CONFIG_DIR);
@@ -67,13 +86,13 @@ $return_var = 0;
 exec('php ' . __DIR__ . '/_install.php 2>&1', $output, $return_var);
 
 if ($return_var === 0) {
+
+//	$builder->copy_nebula_files();
+//	$builder->run_installers();
+
     echo "Install complete!";
-
-	$builder->copy_nebula_files();
-
-	$url = \Liquidedge\ExternalStarter\com\Os::pathToUrl(realpath(Core::DIR_NOVA_ROOT."/install.php"));
 	echo "\n🎉 Your project is ready! Open in your browser:\n";
-	echo $url . "\n\n";
+	echo \Liquidedge\ExternalStarter\com\Os::pathToUrl(realpath(Core::DIR_NOVA_ROOT."/install.php")) . "\n\n";
 
 } else {
     echo "Install failed!";
