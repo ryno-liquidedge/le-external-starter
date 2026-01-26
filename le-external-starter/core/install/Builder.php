@@ -144,6 +144,9 @@ class Builder {
 			if(file_exists(Core::DIR_NOVA."/app/inc/composer/composer.json")){
 				@unlink(Core::DIR_NOVA."/app/inc/composer/composer.json");
 			}
+			if(file_exists(Core::DIR_NOVA."/app/inc/composer/composer.lock")){
+				@unlink(Core::DIR_NOVA."/app/inc/composer/composer.lock");
+			}
 		}
 
 		$config = [
@@ -182,6 +185,7 @@ class Builder {
 		if(!file_exists(Core::DIR_NOVA."/app/inc/composer/composer.json")){
 			Os::mkdir(dirname(Core::DIR_NOVA."/app/inc/composer/composer.json"));
 			file_put_contents(Core::DIR_NOVA."/app/inc/composer/composer.json", json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+			file_put_contents(Core::DIR_NOVA."/app/inc/composer/composer.lock", "");
 		}
 
 		return $this;
