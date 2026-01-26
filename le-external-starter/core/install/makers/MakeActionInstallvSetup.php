@@ -197,15 +197,20 @@ class vsetup implements \com\\router\int\action {
 	}
 	//---------------------------------------------------------------------------
 	public function cli_composer_dump_autoload(): void {
-		\$composerPath = Core::DIR_NOVA_COMPOSER;
-		// Save current working directory
-        \$cwd = getcwd();
+		\$dir_composer = \core::\$folders->get_app()."/inc/composer/";
 
-        // Change to the composer subdirectory
-        \$return_var = 0;
-        chdir(\\core::\$folders->get_app()."/inc/composer/");
-        passthru("composer dump-autoload 2>&1", \$return_var); // streams output live
-		chdir(\$cwd);
+        \$json = file_get_contents("{\$dir_composer}/composer.lock");
+        \$data = json_decode(\$json, true); // true = associative array
+        \$column_arr = array_column(\$data["packages"], "name");
+        if(!in_array("liquid-edge/le-core-ext", \$column_arr)){
+            \$cwd = getcwd();
+    
+            // Change to the composer subdirectory
+            chdir(\core::\$folders->get_app()."/inc/composer/");
+            exec("composer dump-autoload 2>&1"); // streams output live
+            chdir(\$cwd);
+            setcookie("composer_reinit", true);
+		}
 	}
 	//--------------------------------------------------------------------------------
 }
