@@ -87,6 +87,8 @@ exec('php ' . __DIR__ . '/_install.php 2>&1', $output, $return_var);
 
 if ($return_var === 0) {
 
+	$builder->create_actions();
+
     echo "Install complete!";
 	echo "\n🎉 Your project is ready! Open in your browser:\n";
 	echo \Liquidedge\ExternalStarter\com\Os::pathToUrl(realpath(Core::DIR_NOVA_ROOT."/install.php")) . "\n\n";

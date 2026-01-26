@@ -6,6 +6,7 @@ use Liquidedge\ExternalStarter\com\Os;
 use Liquidedge\ExternalStarter\Config;
 use Liquidedge\ExternalStarter\Core;
 use Liquidedge\ExternalStarter\install\installer\InstallInstance;
+use Liquidedge\ExternalStarter\install\makers\MakeActionInstallvSetup;
 use Liquidedge\ExternalStarter\install\makers\MakeRootInstall;
 use Liquidedge\ExternalStarter\install\modifiers\ModifyInstanceFiles;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -34,6 +35,11 @@ class Builder {
 		->create_composer_json()
 		->create_root_files()
 		->cli_composer_update();
+	}
+	//---------------------------------------------------------------------------
+	public function create_actions(): void {
+
+		(new MakeActionInstallvSetup())->run();
 	}
 	//---------------------------------------------------------------------------
 	public function install_nova_addon(): void {
@@ -144,9 +150,6 @@ class Builder {
 			if(file_exists(Core::DIR_NOVA."/app/inc/composer/composer.json")){
 				@unlink(Core::DIR_NOVA."/app/inc/composer/composer.json");
 			}
-			if(file_exists(Core::DIR_NOVA."/app/inc/composer/composer.lock")){
-				@unlink(Core::DIR_NOVA."/app/inc/composer/composer.lock");
-			}
 		}
 
 		$config = [
@@ -174,18 +177,12 @@ class Builder {
 					"packagist.org" => false
 				]
 			],
-			"scripts" => [
-				"post-create-project-cmd" => [
-					"php ../../../wait_for_install.php"
-				]
-			]
 		];
 
 
 		if(!file_exists(Core::DIR_NOVA."/app/inc/composer/composer.json")){
 			Os::mkdir(dirname(Core::DIR_NOVA."/app/inc/composer/composer.json"));
 			file_put_contents(Core::DIR_NOVA."/app/inc/composer/composer.json", json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-			file_put_contents(Core::DIR_NOVA."/app/inc/composer/composer.lock", "");
 		}
 
 		return $this;
