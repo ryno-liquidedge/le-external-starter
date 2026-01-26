@@ -194,13 +194,25 @@ class vsetup implements \com\\router\int\action {
         file_put_contents(\\core::\$folders->get_app()."/inc/composer/composer.json", json_encode(\$config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
 	}
+	//---------------------------------------------------------------------------
+	public function cli_composer_dump_autoload(): void {
+		\$composerPath = Core::DIR_NOVA_COMPOSER;
+		// Save current working directory
+        \$cwd = getcwd();
+
+        // Change to the composer subdirectory
+        \$return_var = 0;
+        chdir(\\core::\$folders->get_app()."/inc/composer/");
+        passthru("composer dump-autoload 2>&1", \$return_var); // streams output live
+		chdir(\$cwd);
+	}
 	//--------------------------------------------------------------------------------
 }
 
 PHP;
 
 		\Liquidedge\ExternalStarter\com\Os::mkdir(dirname(Core::DIR_NOVA."/app/action/install/a.install.vsetup.php"));
-		file_put_contents(Core::DIR_NOVA."/app/action/install/a.install.vsetup.php", $code); 
+		file_put_contents(Core::DIR_NOVA."/app/action/install/a.install.vsetup.php", $code);
 
 	}
 	//---------------------------------------------------------------------------
