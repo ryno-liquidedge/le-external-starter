@@ -37,6 +37,7 @@ class vsetup implements \com\\router\int\action {
 		// init
 
 		\$this->regenerate_composer_file();
+		\$this->cli_composer_dump_autoload();
 
 		\$value_arr = [
 			"your_first_name" => "",
