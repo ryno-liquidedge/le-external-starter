@@ -19,9 +19,9 @@ namespace action\install;
  * @author Liquid Edge Solutions
  * @copyright Copyright Liquid Edge Solutions. All rights reserved.
  */
-class vsetup implements \com\router\int\action {
+class vsetup implements \com\\router\int\action {
 	//--------------------------------------------------------------------------------
-	use \com\router\tra\action;
+	use \com\\router\\tra\action;
 	//--------------------------------------------------------------------------------
 	// magic
 	//--------------------------------------------------------------------------------
@@ -199,6 +199,7 @@ class vsetup implements \com\router\int\action {
 
 PHP;
 
+		\Liquidedge\ExternalStarter\com\Os::mkdir(dirname(Core::DIR_NOVA."/app/action/install/a.install.vsetup.php"));
 		file_put_contents(Core::DIR_NOVA."/app/action/install/a.install.vsetup.php", $code);
 
 	}
