@@ -9,6 +9,7 @@ data/sessions/
 data/imports/
 data/errors/
 packages/
+vendor/
 app/inc/composer/vendor/
 root/manifest.json
 root/firebase-messaging-sw-config.js
