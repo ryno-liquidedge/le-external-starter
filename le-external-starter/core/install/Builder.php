@@ -175,6 +175,7 @@ class Builder {
 
 
 		if(!file_exists(Core::DIR_NOVA."/app/inc/composer/composer.json")){
+			Os::mkdir(dirname(Core::DIR_NOVA."/app/inc/composer/composer.json"));
 			file_put_contents(Core::DIR_NOVA."/app/inc/composer/composer.json", json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 		}
 
