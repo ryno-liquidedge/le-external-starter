@@ -134,7 +134,7 @@ class Builder {
 		return $this;
 	}
 	//---------------------------------------------------------------------------
-	private function create_composer_json($options = []): self {
+	public function create_composer_json($options = []): self {
 
 		$options = array_merge([
 		    "force" => false

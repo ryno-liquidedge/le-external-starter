@@ -2,6 +2,7 @@
 
 namespace Liquidedge\ExternalStarter;
 
+use Liquidedge\ExternalStarter\com\Os;
 use Symfony\Component\Yaml\Yaml;
 
 class Config {
@@ -13,6 +14,7 @@ class Config {
 	public static function load() {
 		$file = Core::INSTALLER_CONFIG_FILE;
 		if (!file_exists($file)) {
+			Os::mkdir(dirname($file));
 			file_put_contents(Core::INSTALLER_CONFIG_FILE, Yaml::dump([], 4, 2));
 		}else{
 			self::$config = Yaml::parseFile($file);
