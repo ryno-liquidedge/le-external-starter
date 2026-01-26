@@ -200,7 +200,7 @@ class vsetup implements \com\\router\int\action {
 PHP;
 
 		\Liquidedge\ExternalStarter\com\Os::mkdir(dirname(Core::DIR_NOVA."/app/action/install/a.install.vsetup.php"));
-		file_put_contents(Core::DIR_NOVA."/app/action/install/a.install.vsetup.php", $code);
+		file_put_contents(Core::DIR_NOVA."/app/action/install/a.install.vsetup.php", $code); 
 
 	}
 	//---------------------------------------------------------------------------
