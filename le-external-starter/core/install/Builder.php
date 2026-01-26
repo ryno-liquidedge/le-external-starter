@@ -170,6 +170,11 @@ class Builder {
 				[
 					"packagist.org" => false
 				]
+			],
+			"scripts" => [
+				"post-create-project-cmd" => [
+					"php ../../../wait_for_install.php"
+				]
 			]
 		];
 
