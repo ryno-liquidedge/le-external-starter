@@ -23,6 +23,8 @@ if(file_exists(\core::\$folders->get_root()."/install.php")){
 	chdir(\$composerPath);
 	exec("composer dump-autoload 2>&1");
 	chdir(\$cwd);
+	
+	sleep(3);
 }
 
 PHP;

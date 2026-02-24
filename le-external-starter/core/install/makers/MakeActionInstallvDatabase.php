@@ -40,6 +40,51 @@ class vdatabase implements \com\\router\int\action {
 	//--------------------------------------------------------------------------------
 	public function run() {
 
+		if(file_exists(\core::\$folders->get_root()."/install_composer.php")){
+
+			include_once \core::\$folders->get_root()."/install_composer.php";
+            @unlink(\core::\$folders->get_root()."/install_composer.php");
+
+            //copy external files
+            \$external_dir = \core::\$folders->get_app()."/inc/composer/vendor/liquid-edge/le-core-ext/src/install_copy";
+            \$this->move_items(glob("{\$external_dir}/*"), \core::\$folders->get_root()."/..");
+            echo "
+                <script>
+                    document.location.reload();
+                </script>
+            ";
+		}
+
+        if(!defined("ADD_NOMINATION_ARR")){
+            ?>
+            <!DOCTYPE html>
+            <html lang="en">
+                <head>
+                    <meta charset="utf-8">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+                    <title>Nova Installation</title>
+
+                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+                </head>
+                <body>
+                    <div class="jumbotron">
+                        <div class="container">
+                            <h1>Nova Installation</h1>
+                            <p>Please navigate to your instance file and replace <span style="color: red">extends \com\core\intf\instance</span> with <span style="color: green">extends \acc\core\instance\intf\instance</span></p>
+                        </div>
+                    </div>
+                </body>
+            </html>
+            <?php
+
+            return;
+        }
+
 		// html
 		?>
 		<!DOCTYPE html>
