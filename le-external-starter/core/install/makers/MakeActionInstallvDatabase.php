@@ -2,11 +2,16 @@
 
 namespace Liquidedge\ExternalStarter\install\makers;
 
+use Liquidedge\ExternalStarter\Config;
 use Liquidedge\ExternalStarter\Core;
 
 class MakeActionInstallvDatabase {
 //---------------------------------------------------------------------------
 	public function run(): void {
+
+		Config::load();
+		$packagist_auth_username = Config::get('packagist_auth_username');
+		$packagist_auth_api_token = Config::get('packagist_auth_api_token');
 
 		$code = <<<PHP
 <?php
@@ -36,9 +41,6 @@ class vdatabase implements \com\\router\int\action {
 	public function run() {
 
         //copy external files
-		\$external_dir = \core::\$folders->get_app()."/inc/composer/vendor/liquid-edge/le-core-ext/src/install_copy";
-        \$this->move_items(glob("{\$external_dir}/*"), \core::\$folders->get_root()."/..");
-        
         \$composerPath = \core::\$folders->get_app()."/inc/composer";
 		// Save current working directory
         \$cwd = getcwd();
@@ -46,6 +48,7 @@ class vdatabase implements \com\\router\int\action {
         // Change to the composer subdirectory
         chdir(\$composerPath);
         \$return_var = 0;
+        passthru("composer config --global --auth http-basic.repo.packagist.com {$packagist_auth_username} {$packagist_auth_api_token}  2>&1", \$return_var); // streams output live
         passthru("composer update 2>&1", \$return_var); // streams output live
 		chdir(\$cwd);
 
