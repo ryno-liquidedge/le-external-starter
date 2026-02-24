@@ -135,7 +135,6 @@ class vdatabase implements \com\\router\int\action {
 
 		foreach (\$paths as \$path) {
 			
-			view(\$path);
 			if (!file_exists(\$path)) {
 				\$errors[] = "Path does not exist: \$path";
 				continue;
