@@ -91,10 +91,13 @@ if ($return_var === 0) {
 	$builder->cleanup();
 
     echo "Install complete!";
-	echo "\n🎉 Your project is ready! Open in your browser:\n";
-	echo \Liquidedge\ExternalStarter\com\Os::pathToUrl(realpath(Core::DIR_NOVA_ROOT."/install.php"));
-	echo "\n\n";
-	echo "\n🎉 Please review your setup process further here: https://github.com/liquid-edge/le-core-ext";
+	echo "\n🎉 Your project is ready! Open in your browser:";
+	echo "\n";
+	echo \Liquidedge\ExternalStarter\com\Os::pathToUrl(realpath(Core::DIR_NOVA_ROOT."/../install.php"));
+	echo "\n\n\n";
+	echo "🎉 Please review your setup process further here:";
+	echo "\n";
+	echo "https://github.com/liquid-edge/le-core-ext";
 	echo "\n\n";
 
 } else {

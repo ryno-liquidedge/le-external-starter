@@ -51,7 +51,7 @@ class Builder {
 			Core::DIR_INSTALLER_ROOT.'/../root',
 		];
 
-		$errors = $this->move_items($items, Core::DIR_NOVA);
+		$errors = $this->move_items($items, Core::DIR_NOVA.'/../');
 		if ($errors) {
 			print_r($errors);
 		} else {
