@@ -9,6 +9,7 @@ use Liquidedge\ExternalStarter\install\installer\InstallInstance;
 use Liquidedge\ExternalStarter\install\makers\MakeActionInstallvDatabase;
 use Liquidedge\ExternalStarter\install\makers\MakeActionInstallvInstall;
 use Liquidedge\ExternalStarter\install\makers\MakeActionInstallvSetup;
+use Liquidedge\ExternalStarter\install\makers\MakeRootComposerInstall;
 use Liquidedge\ExternalStarter\install\makers\MakeRootInstall;
 use Liquidedge\ExternalStarter\install\modifiers\ModifyInstanceFiles;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -228,6 +229,7 @@ class Builder {
 	private function create_root_files(): self {
 
 		(new MakeRootInstall())->run();
+		(new MakeRootComposerInstall())->run();
 
 		return $this;
 	}
