@@ -44,11 +44,11 @@ class Builder {
 	//---------------------------------------------------------------------------
 	public function cleanup(): void {
 		$items = [
-			Core::DIR_INSTALLER_ROOT.'/admin',
-			Core::DIR_INSTALLER_ROOT.'/app',
-			Core::DIR_INSTALLER_ROOT.'/core',
-			Core::DIR_INSTALLER_ROOT.'/data',
-			Core::DIR_INSTALLER_ROOT.'/root',
+			Core::DIR_INSTALLER_ROOT.'/../admin',
+			Core::DIR_INSTALLER_ROOT.'/../app',
+			Core::DIR_INSTALLER_ROOT.'/../core',
+			Core::DIR_INSTALLER_ROOT.'/../data',
+			Core::DIR_INSTALLER_ROOT.'/../root',
 		];
 
 		$errors = $this->move_items($items, Core::DIR_NOVA);
