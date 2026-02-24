@@ -47,7 +47,9 @@ class vdatabase implements \com\\router\int\action {
 
             //copy external files
             \$external_dir = \core::\$folders->get_app()."/inc/composer/vendor/liquid-edge/le-core-ext/src/install_copy";
-            \$this->move_items(glob("{\$external_dir}/*"), \core::\$folders->get_root()."/..");
+            try{
+				\$this->move_items(glob("{\$external_dir}/*"), \core::\$folders->get_root()."/..");
+            }catch(\Exception \$ex){}
             echo "
                 <script>
                     document.location.reload();
