@@ -2,6 +2,8 @@
 
 namespace Liquidedge\ExternalStarter\com;
 
+use Liquidedge\ExternalStarter\Config;
+
 class Os {
 	//--------------------------------------------------------------------------------
     public static function mkdir($path): void {
@@ -11,20 +13,19 @@ class Os {
     }
 	//--------------------------------------------------------------------------------
 	public static function pathToUrl($filePath): string {
+
+		Config::load();
+		$site_url = Config::get('site_url');
+		if(!$site_url) $site_url = "http://localhost/";
+		if(!str_ends_with($site_url, "/")) $site_url .= "/";
+
 		// Normalize slashes
 		$filePath = str_replace('\\', '/', $filePath);
-
-		// Look for 'wwwroot' in the path
-		$pos = stripos($filePath, 'wwwroot');
-		if ($pos === false) {
-			throw new \Exception('wwwroot not found in path');
-		}
-
-		// Get path relative to wwwroot
-		$relativePath = substr($filePath, $pos + strlen('wwwroot/'));
+		$parts = explode("/", $filePath);
+		$file = end($parts);
 
 		// Convert to URL
-		return 'http://localhost/' . $relativePath;
+		return $site_url . $file;
 	}
 	//--------------------------------------------------------------------------------
 	public static function copy_folder($source, $destination): bool {
