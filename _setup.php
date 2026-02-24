@@ -97,7 +97,7 @@ if ($return_var === 0) {
 	echo "\n\n\n";
 	echo "🎉 Please review your setup process further here:";
 	echo "\n";
-	echo "https://github.com/liquid-edge/le-core-ext";
+	echo "https://github.com/liquid-edge/le-core-ext?tab=readme-ov-file#2-initial-setup";
 	echo "\n\n";
 
 } else {

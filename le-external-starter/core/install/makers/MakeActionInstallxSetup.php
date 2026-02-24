@@ -32,6 +32,7 @@ class xsetup implements \com\router\int\action {
 	}
 	//--------------------------------------------------------------------------------
 	public function run() {
+	
 		// params
 		\$your_first_name = \$this->request->get("your_first_name", \com\data::TYPE_STRING);
 

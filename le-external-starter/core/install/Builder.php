@@ -6,6 +6,7 @@ use Liquidedge\ExternalStarter\com\Os;
 use Liquidedge\ExternalStarter\Config;
 use Liquidedge\ExternalStarter\Core;
 use Liquidedge\ExternalStarter\install\installer\InstallInstance;
+use Liquidedge\ExternalStarter\install\makers\MakeActionInstallvInstall;
 use Liquidedge\ExternalStarter\install\makers\MakeActionInstallvSetup;
 use Liquidedge\ExternalStarter\install\makers\MakeRootInstall;
 use Liquidedge\ExternalStarter\install\modifiers\ModifyInstanceFiles;
@@ -40,6 +41,7 @@ class Builder {
 	public function create_actions(): void {
 
 		(new MakeActionInstallvSetup())->run();
+		(new MakeActionInstallvInstall())->run();
 	}
 	//---------------------------------------------------------------------------
 	public function cleanup(): void {
