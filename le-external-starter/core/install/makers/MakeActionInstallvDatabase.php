@@ -153,8 +153,8 @@ class vdatabase implements \com\\router\int\action {
 
 PHP;
 
-		\Liquidedge\ExternalStarter\com\Os::mkdir(dirname(Core::DIR_NOVA."/app/action/install/a.install.vinstall.php"));
-		file_put_contents(Core::DIR_NOVA."/app/action/install/a.install.vinstall.php", $code);
+		\Liquidedge\ExternalStarter\com\Os::mkdir(dirname(Core::DIR_NOVA."/app/action/install/a.install.vdatabase.php"));
+		file_put_contents(Core::DIR_NOVA."/app/action/install/a.install.vdatabase.php", $code);
 
 	}
 	//---------------------------------------------------------------------------
