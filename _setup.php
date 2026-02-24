@@ -93,7 +93,7 @@ if ($return_var === 0) {
     echo "Install complete!";
 	echo "\n🎉 Your project is ready! Open in your browser:";
 	echo "\n";
-	echo \Liquidedge\ExternalStarter\com\Os::pathToUrl(realpath(Core::DIR_NOVA_ROOT."/../install.php"));
+	echo \Liquidedge\ExternalStarter\com\Os::pathToUrl(realpath(Core::DIR_NOVA_ROOT."/install.php"));
 	echo "\n\n\n";
 	echo "🎉 Please review your setup process further here:";
 	echo "\n";
