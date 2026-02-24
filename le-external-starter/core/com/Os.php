@@ -16,7 +16,7 @@ class Os {
 
 		Config::load();
 		$site_url = Config::get('site_url');
-		if(!$site_url) $site_url = "http://localhost/";
+		if(!$site_url) throw new \Exception("Site URL not configured correctly");
 		if(!str_ends_with($site_url, "/")) $site_url .= "/";
 
 		// Normalize slashes

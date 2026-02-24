@@ -38,7 +38,7 @@ Config::load();
 
 $prompt("packagist_auth_username", "Please enter your LE Packagist Auth Username");
 $prompt("packagist_auth_api_token", "Please enter your LE Packagist Auth API Token");
-$prompt("site_url", "Please enter the URL to the root folder of your site: IE: http://localhost/root or http://yourdomain.local");
+$prompt("site_url", "Please enter the URL to the root folder of your site: IE: http://localhost/project/root or http://yourdomain.local");
 
 // Save config to YAML
 Os::mkdir(Core::DIR_INSTALLER_CONFIG_DIR);
