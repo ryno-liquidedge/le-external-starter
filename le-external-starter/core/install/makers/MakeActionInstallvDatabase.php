@@ -40,18 +40,6 @@ class vdatabase implements \com\\router\int\action {
 	//--------------------------------------------------------------------------------
 	public function run() {
 
-        //copy external files
-        \$composerPath = \core::\$folders->get_app()."/inc/composer";
-		// Save current working directory
-        \$cwd = getcwd();
-
-        // Change to the composer subdirectory
-        chdir(\$composerPath);
-        \$return_var = 0;
-        passthru("composer config --global --auth http-basic.repo.packagist.com {$packagist_auth_username} {$packagist_auth_api_token}  2>&1", \$return_var); // streams output live
-        passthru("composer update 2>&1", \$return_var); // streams output live
-		chdir(\$cwd);
-
 		// html
 		?>
 		<!DOCTYPE html>
