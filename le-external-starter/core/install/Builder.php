@@ -42,6 +42,103 @@ class Builder {
 		(new MakeActionInstallvSetup())->run();
 	}
 	//---------------------------------------------------------------------------
+	public function cleanup(): void {
+		$items = [
+			Core::DIR_INSTALLER_ROOT.'/admin',
+			Core::DIR_INSTALLER_ROOT.'/app',
+			Core::DIR_INSTALLER_ROOT.'/core',
+			Core::DIR_INSTALLER_ROOT.'/data',
+			Core::DIR_INSTALLER_ROOT.'/root',
+		];
+
+		$errors = $this->move_items($items, Core::DIR_NOVA);
+		if ($errors) {
+			print_r($errors);
+		} else {
+			echo "All items moved successfully!";
+		}
+
+	}
+	//---------------------------------------------------------------------------
+	/**
+	 * Move files and folders to a new directory
+	 *
+	 * @param array $paths Array of file/folder paths to move
+	 * @param string $targetDir Destination directory
+	 * @return array             List of errors (empty if successful)
+	 */
+	public function move_items(array $paths, string $targetDir): array {
+		$errors = [];
+
+		// Ensure target directory exists
+		if (!is_dir($targetDir) && !mkdir($targetDir, 0755, true)) {
+			return ["Failed to create target directory: $targetDir"];
+		}
+
+		foreach ($paths as $path) {
+			if (!file_exists($path)) {
+				$errors[] = "Path does not exist: $path";
+				continue;
+			}
+
+			$destination = rtrim($targetDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . basename($path);
+
+			// Try simple rename first (fastest)
+			if (!@rename($path, $destination)) {
+				// Fallback for cross-filesystem moves
+				if (is_dir($path)) {
+					if (!$this->copy_directory($path, $destination) || !$this->delete_directory($path)) {
+						$errors[] = "Failed to move directory: $path";
+					}
+				} else {
+					if (!copy($path, $destination) || !unlink($path)) {
+						$errors[] = "Failed to move file: $path";
+					}
+				}
+			}
+		}
+
+		return $errors;
+	}
+	//---------------------------------------------------------------------------
+	/**
+	 * Recursively copy a directory
+	 */
+	public function copy_directory(string $source, string $destination): bool {
+		if (!mkdir($destination, 0755, true) && !is_dir($destination)) {
+			return false;
+		}
+
+		foreach (scandir($source) as $item) {
+			if ($item === '.' || $item === '..') continue;
+
+			$src = $source . DIRECTORY_SEPARATOR . $item;
+			$dst = $destination . DIRECTORY_SEPARATOR . $item;
+
+			if (is_dir($src)) {
+				if (!$this->copy_directory($src, $dst)) return false;
+			} else {
+				if (!copy($src, $dst)) return false;
+			}
+		}
+
+		return true;
+	}
+	//---------------------------------------------------------------------------
+	/**
+	 * Recursively delete a directory
+	 */
+	public function delete_directory(string $dir): bool {
+		foreach (scandir($dir) as $item) {
+			if ($item === '.' || $item === '..') continue;
+
+			$path = $dir . DIRECTORY_SEPARATOR . $item;
+			is_dir($path) ? $this->delete_directory($path) : unlink($path);
+		}
+
+		return rmdir($dir);
+	}
+	//---------------------------------------------------------------------------
 	public function install_nova_addon(): void {
 
 		$this->create_composer_json(["force" => true])
