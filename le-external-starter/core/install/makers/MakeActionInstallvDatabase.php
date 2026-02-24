@@ -83,6 +83,8 @@ class vdatabase implements \com\\router\int\action {
                 </body>
             </html>
             <?php
+            
+            \com\error::clear();
 
             return;
         }
