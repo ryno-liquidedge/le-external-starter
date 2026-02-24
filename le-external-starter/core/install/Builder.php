@@ -6,6 +6,7 @@ use Liquidedge\ExternalStarter\com\Os;
 use Liquidedge\ExternalStarter\Config;
 use Liquidedge\ExternalStarter\Core;
 use Liquidedge\ExternalStarter\install\installer\InstallInstance;
+use Liquidedge\ExternalStarter\install\makers\MakeActionInstallvDatabase;
 use Liquidedge\ExternalStarter\install\makers\MakeActionInstallvInstall;
 use Liquidedge\ExternalStarter\install\makers\MakeActionInstallvSetup;
 use Liquidedge\ExternalStarter\install\makers\MakeRootInstall;
@@ -42,6 +43,7 @@ class Builder {
 
 		(new MakeActionInstallvSetup())->run();
 		(new MakeActionInstallvInstall())->run();
+		(new MakeActionInstallvDatabase())->run();
 	}
 	//---------------------------------------------------------------------------
 	public function cleanup(): void {

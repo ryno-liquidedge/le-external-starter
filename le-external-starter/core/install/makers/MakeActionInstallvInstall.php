@@ -37,7 +37,6 @@ class vinstall implements \com\\router\int\action {
 		\$installer = \com\coder\installer\all::make();
 		\$installer->install();
 
-
 		\$composerPath = \core::\$folders->get_app()."/inc/composer";
 		// Save current working directory
         \$cwd = getcwd();
