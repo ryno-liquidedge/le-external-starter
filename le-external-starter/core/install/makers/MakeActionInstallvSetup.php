@@ -34,8 +34,25 @@ class vsetup implements \com\\router\int\action {
 	}
 	//--------------------------------------------------------------------------------
 	public function run() {
+	
+		//cleanup external starter files
+        \com\os::removedir(\core::\$folders->get_root()."../le-external-starter");
+        \com\os::removedir(\core::\$folders->get_root()."../vendor");
+        \$fn_remove_file = function(\$filename){
+            if(file_exists(\core::\$folders->get_root()."../{\$filename}")) {
+                @unlink(\core::\$folders->get_root()."/{\$filename}");
+            }
+        };
+        
+        \$fn_remove_file("_install.php");
+        \$fn_remove_file("_setup.php");
+        \$fn_remove_file("composer.json");
+        \$fn_remove_file("composer.lock");
+        \$fn_remove_file("post_create.php");
+        \$fn_remove_file("README.md");
+        \$fn_remove_file("setup");
+		
 		// init
-
 		\$this->regenerate_composer_file();
 		\$this->cli_composer_dump_autoload();
 

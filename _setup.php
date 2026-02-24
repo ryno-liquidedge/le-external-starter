@@ -88,10 +88,14 @@ exec('php ' . __DIR__ . '/_install.php 2>&1', $output, $return_var);
 if ($return_var === 0) {
 
 	$builder->create_actions();
+	$builder->cleanup();
 
     echo "Install complete!";
 	echo "\n🎉 Your project is ready! Open in your browser:\n";
-	echo \Liquidedge\ExternalStarter\com\Os::pathToUrl(realpath(Core::DIR_NOVA_ROOT."/install.php")) . "\n\n";
+	echo \Liquidedge\ExternalStarter\com\Os::pathToUrl(realpath(Core::DIR_NOVA_ROOT."/install.php"));
+	echo "\n\n";
+	echo "\n🎉 Please review your setup process further here: https://github.com/liquid-edge/le-core-ext";
+	echo "\n\n";
 
 } else {
     echo "Install failed!";
