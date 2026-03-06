@@ -30,7 +30,7 @@ class vdatabase implements \com\\router\int\action {
 	//--------------------------------------------------------------------------------
 	// magic
 	//--------------------------------------------------------------------------------
-	protected function __construct() {
+	public function __construct() {
 		\core::\$app->set_section(\acc\core\section\api::make());
 	}
 	//--------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ class vdatabase implements \com\\router\int\action {
             @unlink(\core::\$folders->get_root()."/install_composer.php");
 
             //copy external files
-            \$external_dir = \core::\$folders->get_app()."/inc/composer/vendor/liquid-edge/le-core-ext/src/install_copy";
+            \$external_dir = \core::\$folders->get_app()."/inc/composer/vendor/liquid-edge/le-core-ext/stubs";
             try{
 				\$this->move_items(glob("{\$external_dir}/*"), \core::\$folders->get_root()."/..");
 				\\com\\error::clear();
